@@ -7,8 +7,9 @@
  * 
  * Piece definitions: PNBRQK, uppercase is white
  * 
- * en passant is given as if it is allowed (only the move after the pawn push),
- * and what is the location of the pawn that can be en passanted
+ * en passant is given as the imagined location of the pawn that could be
+ * enpassanted. For any pawn pushed two places it is at the location as if it
+ * had only moved one place.
  * 
  * Also includes a set of flags.
  *  List of flags:

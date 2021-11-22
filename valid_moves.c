@@ -120,14 +120,69 @@ int legal_knight(board* board, move move) {
 
 int legal_pawn(board* board, move move) {
     // first allowing movement foward for the player. If black then the allowed
-    // movement is -16 or -8 if the pawn is on the / 8 = 7 row, or - 8 otherwise
+    // movement is -16 or -8 if the pawn is on the / 8 = 6 row, or - 8 otherwise
     // If white then the allowed movement is +16 or +8 if on the / 8 = 1 row or
     // + 8 otherwise. Cannot move onto another piece this way. WILL NOT CHANGE
     // THE EN PASSANT STATE OF THE BOARD!!!
 
     int mvmt = move.start - move.end;
 
-    if ((!player) && (move.start / 8 == 1)) {
-        if (mvmt != 8 || mvmt !=)
+    if ((!board->player) && (move.start / 8 == 1)) {
+        // white moving from row 2
+        if (mvmt != 8 || mvmt != 16) {
+            // not straight ahead movement
+            if (((mvmt == 7) || (mvmt == 9)) && (board->board[move.end] != 0)) {
+                // we have an angle move by the pawn, is a take
+                return 1;
+            }
+            return 0;
+        }
+        if (board->board[move.end] != 0) {
+            return 0;
+            // we tried to move onto a piece
+        } else if ((mvmt > 8) && (board->board[move.start + 8] != 0)) {
+            return 0;
+            // we tried to jump a piece
+        }
+        return 1;
     }
+    if ((board->player) && (move.start / 8 == 6)) {
+        // black moving from row 7
+        if (mvmt != -8 || mvmt != -16) {
+            // not straight ahead movement
+            if (((mvmt == -7) || (mvmt == -9)) && (board->board[move.end] != 0)) {
+                // angle move, lands on a piece (can't be ours by the legal move
+                // function having already checked that we don't end on one of
+                // our own pieces)
+                return 1;
+            }
+            return 0;
+        }
+        if (board->board[move.end] != 0) {
+            return 0;
+            // piece on the square we want to land
+        } else if ((mvmt < -8) && (board->board[move.start + 8] != 0)) {
+            return 0;
+            // we tried to jump a piece
+        }
+        return 1;
+    }
+    // now for standard pawn movement. Check if movement in right direction
+    if ((!board->player && (mvmt > 0)) || (board->player && (mvmt < 0))) {
+        // going in right direction. Movement should be +-7,8,9
+        if ((abs(mvmt) / 8 == 1) && (mvmt % 8 == 0)) {
+            // we are going along a column and only by one step
+            if (board->board[move.end] != 0) {
+                return 0;
+            }
+            return 1;
+        }
+        if ((abs(mvmt) == 7) || (abs(mvmt) == 9)) {
+            if ((board->board[move.end] != 0) || (move.end == board->enpassant)) {
+                return 1;
+                // movement in capture pattern, landed on another piece/en passant
+            }
+        }
+    }
+    return 0;
 }
