@@ -22,7 +22,23 @@ typedef struct board_ {
     int flags;
     char player;
     int enpassant;
+    int white_attacking[2];
+    int black_attacking[2];
+    pieces white_pieces;
+    pieces black_pieces;
 } board;
+
+typedef struct pieces_ {
+    int king;
+    int queen;
+    int rook_a;
+    int rook_h;
+    int knight_b;
+    int knight_g;
+    int bishop_c;
+    int bishop_f;
+    int pawns[8];
+} pieces;
 
 // definition of a move. Is from location to location. a->b. Includes which
 // player is making the move. 
