@@ -10,6 +10,12 @@ int abs(int a) {
         return a;
 }
 
+// returns the value of the bitmap at the given index
+int bit_array_return(int *array, unsigned int index) {
+    int result = array[0] >> index;
+    return 0x1 & result;
+}
+
 /* 
  * legal_move:
  * checks to see if a move is a legal play on a given board. For a given move
@@ -125,7 +131,7 @@ int legal_pawn(board* board, move move) {
     // + 8 otherwise. Cannot move onto another piece this way. WILL NOT CHANGE
     // THE EN PASSANT STATE OF THE BOARD!!!
 
-    int mvmt = move.start - move.end;
+    int mvmt = move.end - move.start;
 
     if ((!board->player) && (move.start / 8 == 1)) {
         // white moving from row 2
@@ -186,3 +192,45 @@ int legal_pawn(board* board, move move) {
     }
     return 0;
 }
+
+int legal_king(board* board, move move) {
+    // cannot move to a location that is attacked by the opponent
+    if ((!board->player) && bit_array_return(board->black_attacking, move.end)) {
+        return 0;
+    } else if ((board->player) && bit_array_return(board->white_attacking, move.end)) {
+        return 0;
+    }
+    int mvmt = move.end - move.start;
+    switch (mvmt)
+    {
+    case -9:
+        return 1;
+        break;
+    case -8:
+        return 1;
+        break;
+    case -7:
+        return 1;
+        break;
+    case -1:
+        return 1;
+        break;
+    case 1:
+        return 1;
+        break;
+    case 7:
+        return 1;
+        break;
+    case 8:
+        return 1;
+        break;
+    case 9:
+        return 1;
+        break;
+    
+    default:
+        return 0;
+        break;
+    }
+}
+
