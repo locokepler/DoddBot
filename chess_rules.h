@@ -1,6 +1,24 @@
 #ifndef CHESS_RULES_H
 #define CHESS_RULES_H
 
+#define LEFT_UP 7
+#define UP 8
+#define RIGHT_UP 9
+#define LEFT -1
+#define RIGHT 1
+#define LEFT_DOWN -7
+#define DOWN -8
+#define RIGHT_DOWN -9
+
+#define K_UP_LFT 15
+#define K_UP_RGT 17
+#define K_RGT_UP 10
+#define K_RGT_DN -6
+#define K_DN_RGT -15
+#define K_DN_LFT -17
+#define K_LFT_DN -10
+#define K_LFT_UP 6
+
 /* time to define what a board is. It is a 64 array of chars, corrosponding
  * to the positions on the board. 0 is (a, 1),  34 is (e, 3), etc. Also
  * includes a flag for which player's turn it is. White is a 0, Black is a 1

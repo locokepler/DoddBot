@@ -47,6 +47,9 @@ int legal_move(board* board, move move) {
     if (((end_piece > 'Z') && move.player) || ((end_piece < 'Z') && (!move.player)))
         return 0;
 
+    // now check if the movement leads to the king being attacked. If so the
+    // cannot be done.
+
     // general checks done, now we need to check the behavior using the rules
     // of individual pieces. 
 
@@ -101,20 +104,14 @@ int legal_queen(board* board, move move) {
 }
 
 int legal_knight(board* board, move move) {
-    int mvmt = abs(move.end - move.start);
+    int mvmt = move.end - move.start;
 
-    switch (mvmt)
+    switch (abs(mvmt))
     {
-    case 6:
-        return 1;
-        break;
-    case 10:
-        return 1;
-        break;
-    case 15:
-        return 1;
-        break;
-    case 17:
+    case K_UP_LFT:
+    case K_UP_RGT:
+    case K_RGT_UP:
+    case K_LFT_UP:
         return 1;
         break;
     
@@ -203,28 +200,14 @@ int legal_king(board* board, move move) {
     int mvmt = move.end - move.start;
     switch (mvmt)
     {
-    case -9:
-        return 1;
-        break;
-    case -8:
-        return 1;
-        break;
-    case -7:
-        return 1;
-        break;
-    case -1:
-        return 1;
-        break;
-    case 1:
-        return 1;
-        break;
-    case 7:
-        return 1;
-        break;
-    case 8:
-        return 1;
-        break;
-    case 9:
+    case RIGHT_DOWN:
+    case DOWN:
+    case LEFT_DOWN:
+    case LEFT:
+    case RIGHT:
+    case LEFT_UP:
+    case UP:
+    case RIGHT_UP:
         return 1;
         break;
     
