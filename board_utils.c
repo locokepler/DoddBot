@@ -1,8 +1,9 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "chess_rules.h"
 
 // takes a FEN string and makes a board out of it.
-board* fin_to_simple_board(char *fen_string) {
+board* fen_to_simple_board(char *fen_string) {
     // first it locates all of the pieces on the board
 
     board* new_board = (board*)malloc(sizeof(board));
@@ -76,6 +77,7 @@ board* fin_to_simple_board(char *fen_string) {
             }
         }
     }
+    return new_board;
 }
 
 
